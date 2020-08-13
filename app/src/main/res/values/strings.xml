@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PoeGraph</string>
+    <string name="poem_title_hint">Poem Title</string>
+    <string name="poem_content_hint">Write your Poem Content Here.</string>
+    <string name="save_menu">Save</string>
+    <string name="delete_menu">Delete</string>
+    <string name="poem_collection_name">poems</string>
+    <string name="insert_new_poem">Create Poem</string>
+    <string name="change_image">Change Picture</string>
+</resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "360502054552",
+    "firebase_url": "https://poegraph.firebaseio.com",
+    "project_id": "poegraph",
+    "storage_bucket": "poegraph.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360502054552:android:03a801046533fe5ca64aed",
+        "android_client_info": {
+          "package_name": "com.wilchrist.poegraph"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360502054552-615ud6kh4ohfbs5icrarndlfgiu6jvje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wilchrist.poegraph",
+            "certificate_hash": "72d9c2963d8eec5e32c67b74bf775cb8bf1f4595"
+          }
+        },
+        {
+          "client_id": "360502054552-1mi057anumib2l3v4qlsjqklsb015mnh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKN87_9Bt0VeqLHL6VGha3rBqkKVR_6Ps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360502054552-1mi057anumib2l3v4qlsjqklsb015mnh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
