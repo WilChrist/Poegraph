@@ -28,6 +28,7 @@ public class PoemCreationTest {
         onView(withId(R.id.save_menu)).perform(click());
     }
 
+
     @Test
     public void DeleteLastNewPoem(){
         onView(withId(R.id.RVPoems)).perform(click());
