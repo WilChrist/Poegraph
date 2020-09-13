@@ -69,18 +69,21 @@ public class FirebaseUtility {
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
     }
 
-    public static FirebaseUser getCurrentlyConnectedUser(){
+    public static FirebaseUser getCurrentlyConnectedUser() {
         return mFirebaseAuth.getCurrentUser();
     }
 
-    public static boolean isConnectedUserOwnerOfPoem(Poem poem){
+    public static boolean isUserConnected() {
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+        return firebaseUser != null;
+    }
+
+    public static boolean isConnectedUserOwnerOfPoem(Poem poem) {
         FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
         String poemUserGuid = "";
         poemUserGuid = poem.getUserId();
-        if(firebaseUser!= null){
-            if(firebaseUser.getUid().equals(poem.getUserId())){
-                return true;
-            }
+        if (firebaseUser != null) {
+            return firebaseUser.getUid().equals(poem.getUserId());
         }
         return false;
     }
