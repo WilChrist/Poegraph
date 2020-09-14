@@ -20,14 +20,14 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -35,8 +35,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
@@ -44,73 +42,81 @@ import static org.hamcrest.Matchers.is;
 public class FirebaseActivityTest {
     static ArrayList<Poem> poems;
 
-     @BeforeClass
-     public static void ClassSetUp(){
-         poems=FirebaseUtility.mPoems;
-     }
+    @BeforeClass
+    public static void ClassSetUp() {
+        poems = FirebaseUtility.mPoems;
+    }
+
     @Rule
     public ActivityTestRule<ListActivity> mActivityTestRule = new ActivityTestRule<>(ListActivity.class);
 
-    public void signIn(){
-        ViewInteraction supportVectorDrawablesButton = onView(
-                allOf(withId(R.id.email_button), withText("Sign in with email"),
-                        childAtPosition(
-                                allOf(withId(R.id.btn_holder),
-                                        childAtPosition(
-                                                withId(R.id.container),
-                                                0)),
-                                0)));
-        supportVectorDrawablesButton.perform(scrollTo(), click());
+    public void signIn() {
+        if (!FirebaseUtility.isUserConnected()) {
+            ViewInteraction supportVectorDrawablesButton = onView(
+                    allOf(withId(R.id.email_button), withText("Sign in with email"),
+                            childAtPosition(
+                                    allOf(withId(R.id.btn_holder),
+                                            childAtPosition(
+                                                    withId(R.id.container),
+                                                    0)),
+                                    0)));
+            supportVectorDrawablesButton.perform(scrollTo(), click());
 
 
-        ViewInteraction emailInputEditText = onView(
-                allOf(withId(R.id.email),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.email_layout),
-                                        0),
-                                0)));
-        emailInputEditText.perform(scrollTo(), typeText("norafob567@frost2d.net"), closeSoftKeyboard());
+            ViewInteraction emailInputEditText = onView(
+                    allOf(withId(R.id.email),
+                            childAtPosition(
+                                    childAtPosition(
+                                            withId(R.id.email_layout),
+                                            0),
+                                    0)));
+            emailInputEditText.perform(scrollTo(), typeText("norafob567@frost2d.net"), closeSoftKeyboard());
 
-        ViewInteraction nextButton = onView(
-                allOf(withId(R.id.button_next), withText("Next"),
-                        childAtPosition(
-                                allOf(withId(R.id.email_top_layout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.ScrollView")),
-                                                0)),
-                                2)));
-        nextButton.perform(scrollTo(), click());
+            ViewInteraction nextButton = onView(
+                    allOf(withId(R.id.button_next), withText("Next"),
+                            childAtPosition(
+                                    allOf(withId(R.id.email_top_layout),
+                                            childAtPosition(
+                                                    withClassName(is("android.widget.ScrollView")),
+                                                    0)),
+                                    2)));
+            nextButton.perform(scrollTo(), click());
 
-        ViewInteraction passwordInputEditText = onView(
-                allOf(withId(R.id.password),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.password_layout),
-                                        0),
-                                0)));
-        passwordInputEditText.perform(scrollTo(), replaceText("&é\"'(-_ç"), closeSoftKeyboard());
+            ViewInteraction passwordInputEditText = onView(
+                    allOf(withId(R.id.password),
+                            childAtPosition(
+                                    childAtPosition(
+                                            withId(R.id.password_layout),
+                                            0),
+                                    0)));
+            passwordInputEditText.perform(scrollTo(), replaceText("&é\"'(-_ç"), closeSoftKeyboard());
 
-        ViewInteraction signInButton = onView(
-                allOf(withId(R.id.button_done), withText("Sign in"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                4)));
-        signInButton.perform(scrollTo(), click());
+            ViewInteraction signInButton = onView(
+                    allOf(withId(R.id.button_done), withText("Sign in"),
+                            childAtPosition(
+                                    childAtPosition(
+                                            withClassName(is("android.widget.ScrollView")),
+                                            0),
+                                    4)));
+            signInButton.perform(scrollTo(), click());
+        }
+
     }
-    public void logout(){
-        ViewInteraction logoutMenuItemView = onView(
-                allOf(withId(R.id.logout_menu), withContentDescription("Logout"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.action_bar),
-                                        1),
-                                1),
-                        isDisplayed()));
-        logoutMenuItemView.perform(click());
+
+    public void logout() {
+        if (FirebaseUtility.isUserConnected()) {
+            ViewInteraction logoutMenuItemView = onView(
+                    allOf(withId(R.id.logout_menu), withContentDescription("Logout"),
+                            childAtPosition(
+                                    childAtPosition(
+                                            withId(R.id.action_bar),
+                                            1),
+                                    1),
+                            isDisplayed()));
+            logoutMenuItemView.perform(click());
+        }
     }
+
     @Test
     public void a0_signInWithEmailTest() {
         signIn();
@@ -119,13 +125,33 @@ public class FirebaseActivityTest {
     }
 
     @Test
-    public void a1_createNewPoemTest(){
+    public void a1_createNewPoemTest() {
         signIn();
+        String title = "Test Poem Title " + Math.random();
+        String content = "Test Poem Content. It has to be a little little longer. Yeah it's good like that! " + Math.random();
+
         onView(withId(R.id.insert_menu)).perform(click());
-        onView(withId(R.id.txtTitle)).perform(typeText("Test Poem Title"), closeSoftKeyboard());
-        onView(withId(R.id.txtContent)).perform(click());
-        onView(withId(R.id.txtContent)).perform(typeText("Test Poem Content. It has to be a little little longer. Yeah it's good like that!"), closeSoftKeyboard());
+        onView(withId(R.id.txtTitle)).perform(typeText(title), closeSoftKeyboard());
+        //onView(withId(R.id.txtContent)).perform(click());
+        onView(withId(R.id.txtContent)).perform(typeText(content), closeSoftKeyboard());
+
         onView(withId(R.id.save_menu)).perform(click());
+
+        //come back to verify the logic
+
+        poems = FirebaseUtility.mPoems;
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.RVPoems),
+                        childAtPosition(
+                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                0)));
+        recyclerView.perform(actionOnItemAtPosition(poems.size() - 1, click()));
+
+
+        onView(withId(R.id.txtContent)).check(matches(withText(content)));
+        onView(withId(R.id.txtTitle)).check(matches(withText(title)));
+        pressBack();
         logout();
     }
     @Test
