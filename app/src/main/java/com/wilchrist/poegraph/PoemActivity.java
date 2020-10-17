@@ -1,8 +1,5 @@
 package com.wilchrist.poegraph;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,6 +10,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 public class PoemActivity extends AppCompatActivity {
 
+    public static final String SELECTED_POEM = "com.wilchrist.poegraph.SELECTED_POEM";
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private RequestQueue requestQueue;
@@ -58,7 +59,7 @@ public class PoemActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.ivPoemPicture);
 
         Intent intent = getIntent();
-        Poem poem = (Poem) intent.getSerializableExtra("Poem");
+        Poem poem = (Poem) intent.getSerializableExtra(SELECTED_POEM);
         if(poem == null) {
             poem = new Poem();
         }
@@ -136,13 +137,13 @@ public class PoemActivity extends AppCompatActivity {
         }
         else
         {
-            mDatabaseReference.child(poem.getId().toString()).setValue(poem);
+            mDatabaseReference.child(poem.getId()).setValue(poem);
         }
         return true;
     }
 
     private void backToList() {
-        Intent intent = new Intent(this, ListActivity.class);
+        Intent intent = new Intent(this, PoemListActivity.class);
         startActivity(intent);
     }
 

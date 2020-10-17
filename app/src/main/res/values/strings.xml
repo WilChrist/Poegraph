@@ -7,4 +7,5 @@
     <string name="poem_collection_name">poems</string>
     <string name="insert_new_poem">Create Poem</string>
     <string name="change_image">Change Picture</string>
+    <string name="alt_poem_image">Image inspiring this poem</string>
 </resources>
